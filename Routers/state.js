@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import * as StateController from '../controllers/stateController.js';
+import * as StateController from '../controllers/state.js';
 import authMiddleware from '../middlewares/authMiddleware.js';
 
 const router = Router();
