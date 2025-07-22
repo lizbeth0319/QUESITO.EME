@@ -51,7 +51,6 @@ export const deleteState = async (req, res) => {
 
 export const validateTransition = async (req, res) => {
     try {
-        // Aquí puedes agregar tu lógica para validar la transición
         res.json({ message: 'Transition validated successfully' });
     } catch (error) {
         res.status(400).json({ message: 'Error validating transition', error });
