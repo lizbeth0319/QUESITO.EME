@@ -1,31 +1,16 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+import mongoose from 'mongoose';
+const { Schema, model, ObjectId } = mongoose;
 
 const categorySchema = new Schema({
-    name: {
-        type: String,
-        required: [true, 'El nombre de la categoría es obligatorio.'],
-        trim: true,
-        unique: true,
-        minlength: [2, 'El nombre debe tener al menos 2 caracteres.']
-    },
-    description: {
-        type: String,
-        trim: true
-    },
-    isActive: {
-        type: Boolean,
-        default: true
-    },
-    createdBy: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: [true, 'El campo createdBy es obligatorio.']
-    }
-}, {
-    timestamps: true
+    _id: { type: ObjectId, unique: true, required: true },
+    name: { type: String, required: true, trim: true, unique: true, minlength: 2 },
+    description: { type: String, trim: true },
+    createdBy: { type: ObjectId, ref: 'User', required: true },
+    isActive: { type: Boolean, default: true },
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now }
 });
 
-const Category = mongoose.model('Category', categorySchema);
+const Category = model('Category', categorySchema);
 
-module.exports = Category;
+export default Category;
