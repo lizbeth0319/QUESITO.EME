@@ -1,85 +1,31 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+import mongoose from 'mongoose';
+const { Schema, model, ObjectId } = mongoose;
 
 const projectSchema = new Schema({
-    name: {
-        type: String,
-        required: [true, 'El nombre del proyecto es obligatorio.'],
-        trim: true,
-        unique: true,
-        minlength: [3, 'El nombre debe tener al menos 3 caracteres.']
-    },
-    description: {
-        type: String,
-        trim: true
-    },
-    category: {
-        type: Schema.Types.ObjectId,
-        ref: 'Category',
-        required: [true, 'La categoría es obligatoria.']
-    },
-    owner: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: [true, 'El propietario es obligatorio.']
-    },
+    _id: { type: ObjectId, unique: true, required: true },
+    name: { type: String, required: true, trim: true, unique: true, minlength: 3 },
+    description: { type: String, trim: true },
+    category: { type: ObjectId, ref: 'Category', required: true },
+    owner: { type: ObjectId, ref: 'User', required: true },
     members: [{
-        user: {
-            type: Schema.Types.ObjectId,
-            ref: 'User',
-            required: true
-        },
-        role: {
-            type: Schema.Types.ObjectId,
-            ref: 'Role',
-            required: true
-        },
-        joinedAt: {
-            type: Date,
-            default: Date.now
-        }
+        user: { type: ObjectId, ref: 'User', required: true },
+        role: { type: ObjectId, ref: 'Role', required: true },
+        joinedAt: { type: Date, default: Date.now }
     }],
-    status: {
-        type: Schema.Types.ObjectId,
-        ref: 'State',
-        required: [true, 'El estado del proyecto es obligatorio.']
-    },
-    priority: {
-        type: String,
-        enum: ['Low', 'Medium', 'High', 'Critical'],
-        default: 'Medium'
-    },
-    startDate: {
-        type: Date,
-        required: [true, 'La fecha de inicio es obligatoria.']
-    },
-    endDate: {
-        type: Date
-    },
-    estimatedHours: {
-        type: Number,
-        min: [0, 'Las horas estimadas no pueden ser negativas.']
-    },
-    actualHours: {
-        type: Number,
-        min: [0, 'Las horas reales no pueden ser negativas.']
-    },
-    budget: {
-        type: Number,
-        min: [0, 'El presupuesto no puede ser negativo.']
-    },
-    isActive: {
-        type: Boolean,
-        default: true
-    },
-    tags: [{
-        type: String,
-        trim: true
-    }]
-}, {
-    timestamps: true
+    status: { type: ObjectId, ref: 'State', required: true },
+    priority: { type: String, enum: ['Low', 'Medium', 'High', 'Critical'], default: 'Medium' },
+    startDate: { type: Date, required: true },
+    endDate: { type: Date },
+    estimatedHours: { type: Number, min: 0 },
+    actualHours: { type: Number, min: 0 },
+    budget: { type: Number, min: 0 },
+    tags: [{ type: String, trim: true }],
+    isActive: { type: Boolean, default: true },
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now }
 });
 
-const Project = mongoose.model('Project', projectSchema);
+const Project = model('Project', projectSchema);
 
-module.exports = Project;
+export default Project;
+
