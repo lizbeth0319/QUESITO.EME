@@ -1,26 +1,22 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+import mongoose from 'mongoose';
+const { Schema, model, ObjectId } = mongoose;
 
 const roleSchema = new Schema({
-    name: {
-        type: String,
-        required: [true, 'El nombre del rol es obligatorio.'],
-        enum: ['Admin', 'Project Manager', 'Developer', 'Viewer'],
-        unique: true,
-        trim: true
+    _id: { type: ObjectId, unique: true, required: true },
+    name: { 
+        type: String, 
+        required: true, 
+        enum: ['Admin', 'Project Manager', 'Developer', 'Viewer'], 
+        unique: true, 
+        trim: true 
     },
-    description: {
-        type: String,
-        trim: true
-    },
-    isActive: {
-        type: Boolean,
-        default: true
-    }
-}, {
-    timestamps: true
+    description: { type: String, trim: true },
+    isActive: { type: Boolean, default: true },
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now }
 });
 
-const Role = mongoose.model('Role', roleSchema);
+const Role = model('Role', roleSchema);
 
-module.exports = Role;
+export default Role;
+3wqqqqqq
